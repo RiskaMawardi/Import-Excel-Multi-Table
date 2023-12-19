@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Jenis extends Model
 {
     use HasFactory;
-    protected $table = "ASSET.Jenis_IBT";
-    protected $primarykey = "RecordID";
+    public $timestamps = false;
+    protected $table = 'ASSET.Jenis_IBT';
+    protected $primarykey = 'RecordID';
     protected $fillable = ['Jenis'];
 }
