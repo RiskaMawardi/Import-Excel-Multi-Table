@@ -29,10 +29,10 @@ class DataImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
         foreach ($rows as $row) {
             Product::create([
                 'ModelSpec' => $row['spec'],
-                'price' => $row['price'],
-                'ProductCode'        => $row['code'] ?? Str::random(10),
-                'JenisID' => Jenis::where('Jenis', $row['jenis'])->first()->id ?? Jenis::create(['Jenis' => $row['jenis']])->id ?? null,
-                'SupplierID' => Supplier::where('SupplierName', $row['supplier'])->first()->id ?? Supplier::create(['SupplierName' => $row['supplier']])->id ?? null,
+                'Price' => $row['price'],
+                'ProductCode'=> $row['code'] ?? Str::random(10),
+                'JenisID' => Jenis::where('Jenis', $row['jenis'])->first()->id ?? Jenis::create(['Jenis' => $row['jenis']])->RecordID ?? null,
+                'SupplierID' => Supplier::where('SupplierName', $row['supplier'])->first()->id ?? Supplier::create(['SupplierName' => $row['supplier']])->RecordID ?? null,
                 'MarkForDelete' => 0  
             ]);
         }
