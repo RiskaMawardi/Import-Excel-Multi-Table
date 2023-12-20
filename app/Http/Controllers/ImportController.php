@@ -15,6 +15,7 @@ class ImportController extends Controller
         ]);
         $path = $request->file('select_file')->getRealPath();
         $data = Excel::import(new DataImport, $path);
+        //dd($data);
         return back()->with('success', 'Excel Data Imported successfully.');
             
     }

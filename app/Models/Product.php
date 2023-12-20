@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Jenis;
 
 class Product extends Model
 {
@@ -12,4 +13,9 @@ class Product extends Model
     protected $table = "ASSET.Product_IBT";
     protected $primarykey = "RecordID";
     protected $fillable = ['JenisID','SupplierID','ProductCode','ModelSpec','Price'];
+
+    public function jenis()
+    {
+        return $this->hasMany(Jenis::class);
+    }
 }
