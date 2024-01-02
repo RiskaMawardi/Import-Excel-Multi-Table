@@ -14,15 +14,14 @@ class ImportController extends Controller
             'select_file'  => 'required|mimes:xls,xlsx'
         ]);
         $path = $request->file('select_file')->getRealPath();
-        $data = Excel::import(new DataImport, $path);
-        //dd($data);
+        Excel::import(new DataImport, $path);
         return back()->with('success', 'Excel Data Imported successfully.');
             
     }
 
-    public function getjenis(){
-        $data = Jenis::all();
-        dd($data);
-    }
+    // public function getjenis(){
+    //     $data = Jenis::all();
+    //     dd($data);
+    // }
   
 }

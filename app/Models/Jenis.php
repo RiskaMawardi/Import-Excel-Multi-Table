@@ -12,7 +12,7 @@ class Jenis extends Model
     public $timestamps = false;
     protected $table = 'ASSET.Jenis_IBT';
     protected $primarykey = 'RecordID';
-    protected $fillable = ['Jenis','Code'];
+    protected $fillable = ['Jenis','Code','Klasifikasi'];
 
     public function product()
     {

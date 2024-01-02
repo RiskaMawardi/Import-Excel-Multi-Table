@@ -11,5 +11,5 @@ class InvoiceDetail extends Model
     public $timestamps = false;
     protected $table = "ASSET.Invoice_Detail_IBT";
     protected $primarykey = "RecordID";
-    protected $fillable = ['RecordID','InvoiceHeaderID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus'];
+    protected $fillable = ['RecordID','InvoiceHeaderID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus','Note','Keterangan','RincianMaintenance'];
 }

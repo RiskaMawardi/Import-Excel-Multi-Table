@@ -12,7 +12,7 @@ class Product extends Model
     public $timestamps = false;
     protected $table = "ASSET.Product_IBT";
     protected $primarykey = "RecordID";
-    protected $fillable = ['JenisID','SupplierID','ProductCode','ModelSpec','Price'];
+    protected $fillable = ['RecordID','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
 
     public function jenis()
     {
