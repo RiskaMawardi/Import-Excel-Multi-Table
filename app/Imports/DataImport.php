@@ -18,9 +18,10 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-
-class DataImport implements ToCollection, WithHeadingRow
+class DataImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
 {
     /**
     * @param  $row   */
@@ -98,7 +99,14 @@ class DataImport implements ToCollection, WithHeadingRow
             //     'DONumber' =>97787,
             //     'MarkForDelete' => 0  
             // ]);
-            //dd($t);
+            //dd($t); 
+           
+            $jenis = isset($row['jenis']) ? $row['jenis'] : '-';
+            $tglmutasi = isset($row['tglmutasi']) ? $row['tglmutasi'] : '-';
+            $spesifikasi = isset($row['spesifikasi']) ? $row['spesifikasi'] : '-';
+            $osproductkey = isset($row['osproductkey']) ? $row['osproductkey'] : '-';
+            $harga = isset($row['harga']) ? $row['harga'] : '-';
+            $historypic = isset($row['historypic']) ? $row['historypic'] : '-';
 
             $r = InvoiceDetail::create([
                 'NomorInventaris' =>$row['noinventaris'] ?? null,
@@ -108,25 +116,14 @@ class DataImport implements ToCollection, WithHeadingRow
                 'Divisi' =>$row['divisi'] ?? null,
                 'Daerah' =>$row['daerah'] ?? null,
                 'AkhirGaransi' =>$row['garansisdtgl'] ?? null,
-                'Note' => 'Jenis :'.''.$row['jenis'].','.'Tgl Mutasi :'.''.$row['tglmutasi'].','.'Spesifikasi :'.''.$row['spesifikasi'].','.'OS Productkey :'.''.$row['osproductkey'].','.'Harga :'.''.$row['harga'].'History PIC :'.''.$row['historypic'] ?? null,
+                'Note' => 'Jenis : ' . $jenis . ', Tgl Mutasi : ' .Date::excelToDateTimeObject($tglmutasi)
+                ->format('y-m-d') . ', Spesifikasi : ' . $spesifikasi . ', OS Productkey : ' . $osproductkey . ', Harga : ' . $harga . ', History PIC : ' . $historypic ?? null,
                 'Keterangan' =>$row['keterangan'] ?? null,
                 'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                 'MarkForDelete' => 0 
             ]);
             //dd($r);
 
-            
-            // $e = InvoicePIC::create([
-            //     'HistoryDivisi' =>null,
-            //     'HistoryDaerah' =>null,
-            //     'HistoryPIC' => $row['historypic'] ?? null,
-            //     'InvoiceDetailID' => $r->first()->RecordID
-
-            // ]);
-            //dd($e);
-           
-
-         
         }
 
         
