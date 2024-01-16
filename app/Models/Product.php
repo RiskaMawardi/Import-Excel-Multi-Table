@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = "ASSET.Product_IBT";
-    protected $primarykey = "RecordID";
+    protected $primaryKey = 'RecordID';
     protected $fillable = ['RecordID','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
 
     public function jenis()

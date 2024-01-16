@@ -19,4 +19,4 @@ Route::get('/', function () {
 });
 
 //Route::get('/get', [ImportController::class,'getjenis']);
-Route::post('/import_excel/import', [ImportController::class,'imp']);
+Route::post('/import_excel/import', [ImportController::class,'import']);

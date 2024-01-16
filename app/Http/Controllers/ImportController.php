@@ -6,9 +6,11 @@ use App\Models\Jenis;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\DataImport;
+use App\Imports\SupplierImport;
+use App\Imports\ProductImport;
 class ImportController extends Controller
 {
-    public function imp(request $request){
+    public function import(request $request){
 
         $this->validate($request, [
             'select_file'  => 'required|mimes:xls,xlsx'
@@ -18,10 +20,4 @@ class ImportController extends Controller
         return back()->with('success', 'Excel Data Imported successfully.');
             
     }
-
-    // public function getjenis(){
-    //     $data = Jenis::all();
-    //     dd($data);
-    // }
-  
 }

@@ -11,7 +11,7 @@ class Jenis extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'ASSET.Jenis_IBT';
-    protected $primarykey = 'RecordID';
+    protected $primaryKey = 'RecordID';
     protected $fillable = ['Jenis','Code','Klasifikasi'];
 
     public function product()
