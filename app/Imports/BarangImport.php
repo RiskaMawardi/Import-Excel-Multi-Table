@@ -33,9 +33,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
     {
         foreach ($rows as $row) {
 
-            $existingSupplier = Supplier::where('SupplierName', $row['sname'])->get()->first();
-            //dd($existingSupplier);// isi ini udah pasti null soalnya di tbl blm ada supplier ini
-            //kalau null otomatis create new dong
+            $existingSupplier = Supplier::where('SupplierName', $row['sname'])->findOrFail('id');
+            
             if (!$existingSupplier) {
                 $s = Supplier::all()->count();
                 $newSupplier = Supplier::create([
@@ -53,7 +52,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
         
                 //dd($newSupplier); // harusnya recordid +1 dari $s(ngitung jumlah data di tbl supplier)
 
-                $supplierID = $newSupplier->RecordID;
+                $supplierID = $newSupplier->id;
 
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
@@ -69,10 +68,10 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 //dd($POHeader);
                 //dd($supplierRecordID);
             } else {
-                $supplierRecordID = $existingSupplier->RecordID;
+                
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
-                    'SupplierID' => $supplierRecordID,
+                    'SupplierID' => $existingSupplier,
                     'PONumber' => $count + 1,
                     'PODate' => null,
                     'Note' => $row['keterangan'] ?? null,
@@ -84,14 +83,37 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 //dd($POHeader);
             }
 
-            //dd($supplierRecordID);
+            // //dd($supplierRecordID);
+            // $getProduct = Product::where('ModelSpec',$row['spesifikasi'])->get();
 
-            $POHeaderRecordID = $POHeader->RecordID;
+            // if($getProduct == null || !$getProduct){
+            //     $i = Product::count();
+            //     $Product = Product::create([
+            //         'ModelSpec' => $row['spesifikasi'] ?? 'null',
+            //         'Price' => $row['harga'] ?? null,
+            //         'ProductCode' =>Jenis::where('jenis',$row['jenis'])->first()->code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+            //         'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
+            //         'SupplierID' =>Supplier::where('SupplierName',$row['sname'])->first()->id ?? null,
+            //         'MarkForDelete' => 0
+            //     ]);
 
+            //     //dd($Product);
+
+            //     $POHeaderRecordID = $POHeader->id;
+            //      $PODetail = PoDetail::create([
+            //         'POHeaderID' => $POHeaderRecordID,
+            //         'ProductID' => $Product->id,
+            //         'Price' => $row['harga'] ?? null,
+            //         'Qty' => 1,
+            //         'MarkForDelete' => 0  
+            //      ]);
+            // }
+
+            $POHeaderRecordID = $POHeader->id;
             $PODetail = PoDetail::create([
                 'POHeaderID' => $POHeaderRecordID,
-                'ProductID' => Product::where('ModelSpec',$row['spesifikasi'])->first()->RecordID ?? null,
-                'Price' =>Product::where('ModelSpec',$row['spesifikasi'])->first()->Price ?? null,
+                'ProductID' => Product::where('ModelSpec',$row['spesifikasi'])->first()->id ?? null,
+                'Price' => $row['harga'],
                 'Qty' => 1,
                 'MarkForDelete' => 0  
             ]);
@@ -110,8 +132,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
             ]);
             //dd($Invoice); 
             
-            $PODetailRecordID = $PODetail->RecordID;
-            $InvoiceRecordID = $Invoice->RecordID;
+            $PODetailRecordID = $PODetail->id;
+            $InvoiceRecordID = $Invoice->id;
 
             $Asset = Asset::create([
                 'InvoiceID' => $InvoiceRecordID,
@@ -130,8 +152,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
             ]);
             //dd($Asset);
 
-            $AssetRecordID = $Asset->RecordID;
-            dd($AssetRecordID);
+            $AssetRecordID = $Asset->id;
+            // dd($AssetRecordID);
 
             $HistoryPIC = AssetPIC::create([
                 'AssetID' => $AssetRecordID,

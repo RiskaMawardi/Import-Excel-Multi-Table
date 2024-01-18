@@ -9,7 +9,7 @@ class Supplier extends Model
 {
     use HasFactory;
     //public $timestamps = false;
-    protected $table = "ASSET.Supplier_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','SupplierCode','SupplierName','SupplierAddress','NPWP','SupplierPIC','PhoneNumber','BankNumber','Website','Note'];
+    protected $table = "suppliers";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','SupplierCode','SupplierName','SupplierAddress','NPWP','SupplierPIC','PhoneNumber','BankNumber','Website','Note'];
 }

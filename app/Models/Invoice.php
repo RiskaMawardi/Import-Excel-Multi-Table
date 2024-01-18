@@ -9,7 +9,7 @@ class Invoice extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "ASSET.Invoice_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['POHeaderID','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
+    protected $table = "invoices";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','POHeaderID','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
 }

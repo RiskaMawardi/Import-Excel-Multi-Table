@@ -10,9 +10,9 @@ class Product extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "ASSET.Product_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
+    protected $table = "products";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
 
     public function jenis()
     {

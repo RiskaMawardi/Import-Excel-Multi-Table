@@ -9,7 +9,7 @@ class PoDetail extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "ASSET.PO_Detail_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['POHeaderID','ProductID','Price','Qty'];
+    protected $table = "PO_Details";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','POHeaderID','ProductID','Price','Qty'];
 }

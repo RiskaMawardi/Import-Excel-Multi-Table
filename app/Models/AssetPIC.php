@@ -9,7 +9,7 @@ class AssetPIC extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "ASSET.Asset_PIC_History_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','HardwareID','HistoryDivisi','HistoryDaerah','HistoryPIC','StartDate','ChangedDate','AssetID'];
+    protected $table = "assets_histories";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','RecordID','HardwareID','HistoryDivisi','HistoryDaerah','HistoryPIC','StartDate','ChangedDate','AssetID'];
 }
