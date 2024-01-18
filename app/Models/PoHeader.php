@@ -11,6 +11,6 @@ class PoHeader extends Model
     public $timestamps = false;
     protected $table = "ASSET.PO_Header_IBT";
     protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','SupplierID','PONumber','PODate','Note','PPN'];
+    protected $fillable = ['RecordID','SupplierID','SupplierCodeFK','PONumber','PODate','Note','PPN'];
     
 }

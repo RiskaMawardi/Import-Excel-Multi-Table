@@ -11,5 +11,5 @@ class AssetPIC extends Model
     public $timestamps = false;
     protected $table = "ASSET.Asset_PIC_History_IBT";
     protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','HardwareID','HistoryDivisi','HistoryDaerah','HistoryPIC','StartDate','ChangedDate','AssetID'];
+    protected $fillable = ['HistoryDivisi','HistoryDaerah','HistoryPIC','StartDate','ChangedDate','AssetID','NomorInventarisFK'];
 }

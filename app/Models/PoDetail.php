@@ -11,5 +11,5 @@ class PoDetail extends Model
     public $timestamps = false;
     protected $table = "ASSET.PO_Detail_IBT";
     protected $primaryKey = 'RecordID';
-    protected $fillable = ['POHeaderID','ProductID','Price','Qty'];
+    protected $fillable = ['PONumberFK','ProductID','Price','Qty'];
 }

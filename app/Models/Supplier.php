@@ -11,5 +11,15 @@ class Supplier extends Model
     //public $timestamps = false;
     protected $table = "ASSET.Supplier_IBT";
     protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','SupplierCode','SupplierName','SupplierAddress','NPWP','SupplierPIC','PhoneNumber','BankNumber','Website','Note'];
+    protected $fillable = [
+        'RecordID',
+        'SupplierCode',
+        'SupplierName',
+        'SupplierAddress',
+        'NPWP','SupplierPIC',
+        'PhoneNumber',
+        'BankNumber',
+        'Website',
+        'Note'
+    ];
 }
