@@ -38,6 +38,10 @@
                 </table>
             </div>
         </form>
+
+        <div class="navbar">
+            <a class="btn btn-primary" >List Barang</a>
+        </div>
         <!-- Optional JavaScript; choose one of the two! -->
 
         <!-- Option 1: Bootstrap Bundle with Popper -->

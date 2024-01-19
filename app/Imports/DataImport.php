@@ -12,8 +12,9 @@ class DataImport implements WithMultipleSheets
     public function sheets(): array
     {   
         return [
-            //'supplier' => new SupplierImport(),
-            //'produk' => new ProductImport(),
+            // 'jenis' => new JenisImport(),
+            // 'supplier' => new SupplierImport(),
+            // 'produk' => new ProductImport(),
             'barang' => new BarangImport(),
         ];
     }

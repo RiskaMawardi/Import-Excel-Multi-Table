@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PoHeader extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $table = "ASSET.PO_Header_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['RecordID','SupplierID','SupplierCodeFK','PONumber','PODate','Note','PPN'];
+    //public $timestamps = false;
+    protected $table = "PO_Header_IBT";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','SupplierID','PONumber','PODate','Note','PPN'];
     
 }

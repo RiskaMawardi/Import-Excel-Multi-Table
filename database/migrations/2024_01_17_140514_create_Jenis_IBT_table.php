@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ASSET.Asset_IBT', function($table) {
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        Schema::create('Jenis_IBT', function (Blueprint $table) {
+            $table->id();
+            $table->string('Jenis',25);
+            $table->string('Klasifikasi',25);
+            $table->string('Code',5);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ASSET.Asset_IBT', function($table) {
-            $table->dropTimestamps();
-        });
+        Schema::dropIfExists('jenis');
     }
 };

@@ -9,7 +9,7 @@ class Asset extends Model
 {
     use HasFactory;
     //public $timestamps = false;
-    protected $table = "ASSET.Asset_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['Product','InvoiceNumberFK','InvoiceID','PODetailID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus','Note','Keterangan','RincianMaintenance'];
+    protected $table = "Asset_IBT";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','InvoiceID','PODetailID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus','Note','Keterangan','RincianMaintenance'];
 }

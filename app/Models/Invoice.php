@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $table = "ASSET.Invoice_IBT";
-    protected $primaryKey = 'RecordID';
-    protected $fillable = ['PONumberFK','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
+    //public $timestamps = false;
+    protected $table = "Invoice_IBT";
+    protected $primaryKey = 'id';
+    protected $fillable = ['id','POHeaderID','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
 }
