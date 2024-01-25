@@ -5,22 +5,16 @@ namespace App\Imports;
 use App\Models\Asset;
 use App\Models\Invoice;
 use App\Models\AssetPIC;
-use App\Models\Jenis;
-use App\Models\MaintenanceDetail;
 use App\Models\PoDetail;
 use App\Models\PoHeader;
 use App\Models\Product;
 use App\Models\Supplier;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
-use Illuminate\Support\Facades\DB;
+
 
 class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
 {
@@ -36,7 +30,6 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
 
             $supplier = Supplier::where('SupplierName', $row['sname'])->first();
             if ($supplier) {
-                // A record was found, you can safely access its properties
                 $id = $supplier->id;
 
                 $count = POHeader::count();
@@ -123,7 +116,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         
                         'SupplierCode' => 'SC' . str_pad($s + 1, 6, '0', STR_PAD_LEFT),
                         'Note' => null,
-                        'SupplierName' => 'unavailable',
+                        'SupplierName' => '-',
                         'SupplierAddress' => null,
                         'NPWP' => null,
                         'Website' => null,
@@ -151,17 +144,16 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $supplierID = $newSupplier->id;
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
-                    //'SupplierCodeFK' => $supplier,
                     'SupplierID' =>$supplierID,
                     'PONumber' => $count + 1,
                     'PODate' => null,   
-                    'Note' => $row['keterangan'] ?? null,   
+                    'Note' => $row['keterangan'],   
                     'PPN' => null,
                     'MarkForDelete' => 0
                 ]);
                 //dd($POHeader);
                 $POHeaderRecordID = $POHeader->id ;
-                $matching = Product::where('ModelSpec', 'LIKE', '%' .$row['spesifikasi'].'%')->first();
+                $matching = Product::where('ModelSpec', 'LIKE', $row['spesifikasi'].'%')->first();
                 $PODetail = PoDetail::create([
                     'POHeaderID' => $POHeaderRecordID,
                     'ProductID' =>$matching->id ?? null,
@@ -177,7 +169,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $Invoice = Invoice::create([
                     'POHeaderID' =>$POHeaderRecordID,
                     // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
-                    'InvoiceNumber' =>"-",
+                    'InvoiceNumber' =>null,
                     'InvoiceDate' =>null,
                     'TermOfPayment' =>null,
                     'FakturPajak' =>null,

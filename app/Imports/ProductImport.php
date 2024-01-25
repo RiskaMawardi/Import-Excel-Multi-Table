@@ -24,7 +24,7 @@ class ProductImport implements ToCollection, WithHeadingRow, WithCalculatedFormu
             $Product = Product::create([
                 'ModelSpec' => $row['model_specifications'] ?? 'null',
                 'Price' => $row['price'] ?? null,
-                'ProductCode' =>Jenis::where('jenis',$row['jenis'])->first()->code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
                 'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
                 'SupplierID' =>Supplier::where('SupplierName',$row['supplier_name'])->first()->id ?? null,
                 'MarkForDelete' => 0

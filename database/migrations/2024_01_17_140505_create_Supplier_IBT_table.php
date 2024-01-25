@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('SupplierAddress',255)->nullable();
             $table->string('NPWP',25)->nullable();
             $table->string('SupplierPIC',255)->nullable();
-            $table->string('BankNumber',20)->nullable();
-            $table->string('PhoneNumber',20)->nullable();
+            $table->string('BankNumber',150)->nullable();
+            $table->string('PhoneNumber',60)->nullable();
             $table->string('Website',100)->nullable();
             $table->text('Note')->nullable();
             $table->boolean('MarkForDelete')->default('false');
