@@ -9,6 +9,7 @@ use App\Models\PoDetail;
 use App\Models\PoHeader;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Jenis;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -27,8 +28,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
     {
         foreach ($rows as $row) {
         
-
-            $supplier = Supplier::where('SupplierName', $row['sname'])->first();
+            //$productid = 
+            $supplier = Supplier::where('SupplierName','like','%'. $row['sname'].'%')->first();
             if ($supplier) {
                 $id = $supplier->id;
 
@@ -43,15 +44,78 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 ]);
 
                 $POHeaderRecordID = $POHeader->id ;
-                $matching = Product::where('ModelSpec', 'LIKE', '%' .$row['spesifikasi'].'%')->first();
+                $matching = Product::where('ModelSpec', 'like', '%' .$row['spesifikasi'].'%')->first();
+                if($matching){
+                    $PODetail = PoDetail::create([
+                        'POHeaderID' => $POHeaderRecordID,
+                        'ProductID' =>$matching->id,
+                        'Price' => $row['harga'] ?? null,
+                        'Spesifikasi' => $row['spesifikasi'] ?? null,
+                        'Qty' => 1,
+                        'MarkForDelete' => 0  
+                    ]);
+
+                    $JJ =Invoice::count();
+                    $Invoice = Invoice::create([
+                        'POHeaderID' =>$POHeaderRecordID,
+                        // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
+                        'InvoiceNumber' =>"-",
+                        'InvoiceDate' =>null,
+                        'TermOfPayment' =>null,
+                        'FakturPajak' =>null,
+                        'DONumber' =>null,
+                        'MarkForDelete' => true
+                    ]);
+    
+                    $PODetailRecordID = $PODetail->id;
+                    $InvoiceRecordID = $Invoice->id;
+    
+                    $Asset = Asset::create([
+                        'InvoiceID' => $InvoiceRecordID,
+                        'PODetailID' =>$PODetailRecordID,
+                        'NomorInventaris' =>$row['noinventaris'] ?? null,
+                        'SerialNumber' =>$row['serialno'] ?? null,
+                        'MasterAssetSAP' =>$row['masterassetsap'] ?? null,
+                        'PIC' =>$row['pic'] ?? null,
+                        'Divisi' =>$row['divisi'] ?? null,
+                        'Daerah' =>$row['daerah'] ?? null,
+                        'Note' => '-',
+                        'Product' => $row['spesifikasi'] ?? null,
+                        'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
+                        'Keterangan' =>$row['keterangan'] ?? null,
+                        'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
+                        'MarkForDelete' => 0 
+                    ]);
+    
+                    $AssetRecordID = $Asset->id;
+                    $HistoryPIC = AssetPIC::create([
+                        'AssetID' => $AssetRecordID,
+                        'HistoryDivisi' => null,
+                        'HistoryDaerah' => null,
+                        'HistoryPIC' => $row['historypic'],
+    
+                    ]);
+                }
+
+                $i = Product::count();
+                $Product = Product::create([
+                    'ModelSpec' => $row['model_specifications'] ?? 'null',
+                    'Price' => $row['price'] ?? null,
+                    'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                    'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
+                    'SupplierID' =>$id,
+                    'MarkForDelete' => 0
+                ]);
+
                 $PODetail = PoDetail::create([
                     'POHeaderID' => $POHeaderRecordID,
-                    'ProductID' =>$matching->id ?? null,
+                    'ProductID' =>$Product->id,
                     'Price' => $row['harga'] ?? null,
                     'Spesifikasi' => $row['spesifikasi'] ?? null,
                     'Qty' => 1,
                     'MarkForDelete' => 0  
                 ]);
+                
                 $JJ =Invoice::count();
                 $Invoice = Invoice::create([
                     'POHeaderID' =>$POHeaderRecordID,
@@ -153,7 +217,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 ]);
                 //dd($POHeader);
                 $POHeaderRecordID = $POHeader->id ;
-                $matching = Product::where('ModelSpec', 'LIKE', $row['spesifikasi'].'%')->first();
+                $matching = Product::where('ModelSpec', 'like','%'. $row['spesifikasi'].'%')->first();
                 $PODetail = PoDetail::create([
                     'POHeaderID' => $POHeaderRecordID,
                     'ProductID' =>$matching->id ?? null,
