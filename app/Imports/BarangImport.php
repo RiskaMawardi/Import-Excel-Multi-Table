@@ -36,7 +36,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
                     'SupplierID' => $id,
-                    'PONumber' => $count + 1,
+                    'PONumber' =>'-',
                     'PODate' => null,
                     'Note' => $row['keterangan'] ?? null,
                     'PPN' => null,
@@ -201,7 +201,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $POHeader = POHeader::create([
                         //'SupplierCodeFK' => $supplier,
                         'SupplierID' =>$supplierID,
-                        'PONumber' => $count + 1,
+                        'PONumber' => '-',
                         'PODate' => null,   
                         'Note' =>  null,   
                         'PPN' => null,
@@ -213,7 +213,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
                     'SupplierID' =>$supplierID,
-                    'PONumber' => $count + 1,
+                    'PONumber' => '-',
                     'PODate' => null,   
                     'Note' => $row['keterangan'],   
                     'PPN' => null,
@@ -346,16 +346,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
         
                     ]);
                     //dd($HistoryPIC);
-                }
-                
+                } 
             }
-
-         
-           
-
-        }
-
-        
+        }   
     }
-
 }
