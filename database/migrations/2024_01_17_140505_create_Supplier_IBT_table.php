@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('BankNumber',150)->nullable();
             $table->string('PhoneNumber',60)->nullable();
             $table->string('Website',100)->nullable();
-            $table->text('Note')->nullable();
+            $table->string('Note', 500)->nullable();
+		$table->string('UpdatedBy',100)->nullable();
             $table->boolean('MarkForDelete')->default('false');
             $table->timestamps();
         });

@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('Invoice_IBT', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('POHeaderID');
-            $table->foreign('POHeaderID')->references('id')->on('PO_Header_IBT')->onDelete('cascade');
+            $table->foreign('POHeaderID')->references('id')->on('PO_Header_IBT');
             $table->string('InvoiceNumber',25)->nullable();
             $table->dateTime('InvoiceDate')->nullable();
             $table->dateTime('TermOfPayment')->nullable();
-            $table->string('DONumber')->nullable();
+            $table->string('DONumber', 50)->nullable();
             $table->string('FakturPajak',50)->nullable();
+		$table->string('Note', 500)->nullable();
+		$table->string('UpdatedBy',100)->nullable();
             $table->boolean('MarkForDelete')->default('false');
             $table->timestamps();
         });

@@ -11,5 +11,5 @@ class Invoice extends Model
     //public $timestamps = false;
     protected $table = "Invoice_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['id','POHeaderID','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
+    protected $fillable = ['UpdatedBy','id','POHeaderID','InvoiceNumber','InvoiceDate','TermOfPayment','DONumber','SubTotal','PPN','GrandTotal','FakturPajak'];
 }

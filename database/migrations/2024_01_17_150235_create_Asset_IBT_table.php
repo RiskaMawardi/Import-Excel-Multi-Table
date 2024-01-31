@@ -16,20 +16,21 @@ return new class extends Migration
         Schema::create('Asset_IBT', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('InvoiceID');
-            $table->foreign('InvoiceID')->references('id')->on('Invoice_IBT')->onDelete('cascade');
+            $table->foreign('InvoiceID')->references('id')->on('Invoice_IBT');
             $table->bigInteger('PODetailID');
-            $table->foreign('PODetailID')->references('id')->on('PO_Detail_IBT')->onUpdate('cascade');
+            $table->foreign('PODetailID')->references('id')->on('PO_Detail_IBT');
             $table->string('NomorInventaris',50)->nullable();
             $table->string('SerialNumber',50)->nullable();
             $table->string('MasterAssetSAP',50)->nullable();
-            $table->string('PIC',2000)->nullable();
+            $table->string('PIC',1000)->nullable();
             $table->string('Divisi',50)->nullable();
             $table->string('Daerah',50)->nullable();
             $table->dateTime('AkhirGaransi')->nullable();
             $table->string('HardwareStatus',25)->nullable();
-            $table->text('Note')->nullable();
-            $table->text('RincianMaintenance')->nullable();
-            $table->text('Keterangan')->nullable();
+            $table->string('Note', 1000)->nullable();
+            $table->string('RincianMaintenance', 500)->nullable();
+            $table->string('Keterangan', 500)->nullable();
+		    $table->string('UpdatedBy',100)->nullable();
             $table->boolean('MarkForDelete')->default('false');
             $table->timestamps();
         });

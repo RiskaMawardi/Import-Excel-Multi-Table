@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('PO_Header_IBT', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('SupplierID');
-            $table->foreign('SupplierID')->references('id')->on('Supplier_IBT')->onDelete('cascade');
+            $table->foreign('SupplierID')->references('id')->on('Supplier_IBT');
             $table->string('PONumber',25)->nullable();
             $table->dateTime('PODate')->nullable();
             $table->integer('PPN')->nullable();
-            //$table->bigInteger('GrandTotal')->nullable();
-            $table->text('Note')->nullable();
+            $table->string('Note', 500)->nullable();
+		$table->string('UpdatedBy',100)->nullable();
             $table->boolean('MarkForDelete')->default('false');
             $table->timestamps();
         });

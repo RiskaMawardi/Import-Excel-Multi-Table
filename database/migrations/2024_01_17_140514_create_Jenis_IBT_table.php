@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('Jenis',25);
             $table->string('Klasifikasi',25);
             $table->string('Code',5);
+		$table->string('UpdatedBy',100)->nullable();
             $table->timestamps();
         });
     }

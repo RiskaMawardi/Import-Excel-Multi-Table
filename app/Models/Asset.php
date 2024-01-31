@@ -11,5 +11,5 @@ class Asset extends Model
     //public $timestamps = false;
     protected $table = "Asset_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['id','InvoiceID','PODetailID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus','Note','Keterangan','RincianMaintenance'];
+    protected $fillable = ['UpdatedBy','id','InvoiceID','PODetailID','ProductID','NomorInventaris','SerialNumber','MasterAssetSAP','PIC','Divisi','Daerah','AkhirGaransi','HardwareStatus','Note','Keterangan','RincianMaintenance'];
 }

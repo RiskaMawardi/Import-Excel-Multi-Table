@@ -20,40 +20,30 @@ class ProductImport implements ToCollection, WithHeadingRow, WithCalculatedFormu
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $dt = Supplier::where('SupplierName','like','%'.$row['supplier_name'].'%')->first();
+            $dt = Supplier::where('SupplierCode',$row['suppliercode'])->first();
             if($dt){
                 $i = Product::count();
                 $Product = Product::create([
                     'ModelSpec' => $row['model_specifications'] ?? 'null',
                     'Price' => $row['price'] ?? null,
-                    'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                    'ProductCode' =>$row['productcode'],
                     'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
                     'SupplierID' =>$dt->id,
-                    'MarkForDelete' => 0
+                    'MarkForDelete' => 0,
+                    'UpdatedBy' => 'Import'
                 ]);
                 //dd($Product);
             }else{
-                $s = Supplier::count();
-                $supplier = Supplier::create([
-                    'SupplierCode' =>'SC'.str_pad((int)substr($s++,0) + 1, 6, '0', STR_PAD_LEFT),
-                    'SupplierName' =>$row['supplier_name'] ?? 'null',
-                    'SupplierAddress' =>$row['supplier_address'] ?? 'null',
-                    'NPWP' =>$row['npwp'] ?? 'null',
-                    'Website' =>$row['website'] ?? 'null',
-                    'PhoneNumber' =>$row['phone_number'] ??'null',
-                    'SupplierPIC' =>$row['supplier_pic'] ??'null',
-                    'BankNumber' =>$row['bank_number'] ?? 'null',  
-                    'MarkForDelete' => 0
-                ]);
-
+                $supplier = Supplier::where('SupplierCode','SC00001')->first();
                 $i = Product::count();
                 $Product = Product::create([
                     'ModelSpec' => $row['model_specifications'] ?? 'null',
                     'Price' => $row['price'] ?? null,
-                    'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                    'ProductCode' =>$row['productcode'],
                     'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
                     'SupplierID' =>$supplier->id,
-                    'MarkForDelete' => 0
+                    'MarkForDelete' => 0,
+                    'UpdatedBy' => 'Import'
                 ]);
             }
            

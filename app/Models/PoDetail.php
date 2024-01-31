@@ -11,5 +11,5 @@ class PoDetail extends Model
     //public $timestamps = false;
     protected $table = "PO_Detail_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['id','POHeaderID','ProductID','Price','Qty','Spesifikasi'];
+    protected $fillable = ['UpdatedBy','id','POHeaderID','ProductID','Price','Qty'];
 }

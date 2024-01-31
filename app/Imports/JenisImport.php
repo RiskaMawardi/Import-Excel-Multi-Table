@@ -20,7 +20,8 @@ class JenisImport implements ToCollection, WithHeadingRow, WithCalculatedFormula
             $Jenis = Jenis::create([
                 'Jenis' => $row['jenis'],
                 'Klasifikasi' => $row['klasifikasi'],
-                'Code' =>$row['code']
+                'Code' =>$row['code'],
+                'UpdatedBy' => 'Import'
     
             ]);
             //dd($Product);

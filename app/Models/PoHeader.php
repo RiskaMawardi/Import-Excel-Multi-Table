@@ -11,6 +11,6 @@ class PoHeader extends Model
     //public $timestamps = false;
     protected $table = "PO_Header_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['id','SupplierID','PONumber','PODate','Note','PPN'];
+    protected $fillable = ['UpdatedBy','id','SupplierID','PONumber','PODate','Note','PPN'];
     
 }

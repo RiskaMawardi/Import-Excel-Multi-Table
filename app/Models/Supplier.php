@@ -11,5 +11,5 @@ class Supplier extends Model
     //public $timestamps = false;
     protected $table = "Supplier_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['SupplierCode','SupplierName','SupplierAddress','NPWP','SupplierPIC','PhoneNumber','BankNumber','Website','Note'];
+    protected $fillable = ['UpdatedBy','SupplierCode','SupplierName','SupplierAddress','NPWP','SupplierPIC','PhoneNumber','BankNumber','Website','Note'];
 }

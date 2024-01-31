@@ -83,7 +83,7 @@ return [
             'strict' => false,
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'DESKTOP-1I6Q7ON'),
+            'host' => env('DB_HOST', '172.16.3.230\IBTDWH'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),

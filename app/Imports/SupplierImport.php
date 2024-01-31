@@ -18,9 +18,10 @@ class SupplierImport implements ToCollection, WithHeadingRow, WithCalculatedForm
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $s = Supplier::count();
+            // $dd= $row['suppliercode'];
+            // dd($dd);
             $supplier = Supplier::create([
-                'SupplierCode' =>'SC'.str_pad((int)substr($s++,0) + 1, 6, '0', STR_PAD_LEFT),
+                'SupplierCode' =>$row['suppliercode'] ?? 'null',
                 'SupplierName' =>$row['supplier_name'] ?? 'null',
                 'SupplierAddress' =>$row['supplier_address'] ?? 'null',
                 'NPWP' =>$row['npwp'] ?? 'null',
@@ -28,7 +29,8 @@ class SupplierImport implements ToCollection, WithHeadingRow, WithCalculatedForm
                 'PhoneNumber' =>$row['phone_number'] ??'null',
                 'SupplierPIC' =>$row['supplier_pic'] ??'null',
                 'BankNumber' =>$row['bank_number'] ?? 'null',  
-                'MarkForDelete' => 0
+                'MarkForDelete' => 0,
+                'UpdatedBy' => 'Import'
             ]);
             //dd($supplier);
 

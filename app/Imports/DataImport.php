@@ -15,7 +15,7 @@ class DataImport implements WithMultipleSheets
             // 'jenis' => new JenisImport(),
             // 'supplier' => new SupplierImport(),
             // 'produk' => new ProductImport(),
-            //'barang' => new BarangImport(),
+            'barang' => new BarangImport(),
         ];
     }
 }

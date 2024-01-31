@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('Asset_PIC_History_IBT', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('AssetID');
-            $table->foreign('AssetID')->references('id')->on('Asset_IBT')->onDelete('cascade');
-            $table->string('HistoryDivisi')->nullable();
-            $table->string('HistoryDaerah')->nullable();
-            $table->string('HistoryPIC')->nullable();
+            $table->foreign('AssetID')->references('id')->on('Asset_IBT');
+            $table->string('HistoryDivisi', 50)->nullable();
+            $table->string('HistoryDaerah', 50)->nullable();
+            $table->string('HistoryPIC', 300)->nullable();
             $table->timestamps();
         });
     }

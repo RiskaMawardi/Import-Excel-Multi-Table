@@ -29,42 +29,44 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
         foreach ($rows as $row) {
         
             //$productid = 
-            $supplier = Supplier::where('SupplierName','like','%'. $row['sname'].'%')->first();
+            $supplier = Supplier::where('SupplierCode',$row['suppliercode'])->first();
             if ($supplier) {
                 $id = $supplier->id;
 
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
                     'SupplierID' => $id,
-                    'PONumber' =>'-',
-                    'PODate' => null,
+                    'PONumber' => $row['ponumber'] ?? null,
+                    'PODate' =>$row['podate'] ?? null,
                     'Note' => $row['keterangan'] ?? null,
                     'PPN' => null,
-                    'MarkForDelete' => 0
+                    'MarkForDelete' => 0,
+                    'UpdatedBy' => 'Import'
                 ]);
 
                 $POHeaderRecordID = $POHeader->id ;
-                $matching = Product::where('ModelSpec', 'like', '%' .$row['spesifikasi'].'%')->first();
+                $matching = Product::where('ProductCode',$row['productcode'])->first();
                 if($matching){
                     $PODetail = PoDetail::create([
                         'POHeaderID' => $POHeaderRecordID,
                         'ProductID' =>$matching->id,
                         'Price' => $row['harga'] ?? null,
-                        'Spesifikasi' => $row['spesifikasi'] ?? null,
                         'Qty' => 1,
-                        'MarkForDelete' => 0  
+                        'MarkForDelete' => 0 ,
+                        'UpdatedBy' => 'Import'
                     ]);
 
                     $JJ =Invoice::count();
                     $Invoice = Invoice::create([
                         'POHeaderID' =>$POHeaderRecordID,
                         // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
-                        'InvoiceNumber' =>"-",
-                        'InvoiceDate' =>null,
+                        'InvoiceNumber' =>$row['invoicenumber'] ?? null,
+                        'InvoiceDate' =>$row['invoicedate'] ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
-                        'MarkForDelete' => true
+                        'MarkForDelete' => true,
+                        'UpdatedBy' => 'Import'
                     ]);
     
                     $PODetailRecordID = $PODetail->id;
@@ -85,7 +87,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
                         'Keterangan' =>$row['keterangan'] ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
-                        'MarkForDelete' => 0 
+                        'MarkForDelete' => 0 ,
+                        'UpdatedBy' => 'Import'
                     ]);
     
                     $AssetRecordID = $Asset->id;
@@ -101,31 +104,33 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $Product = Product::create([
                         'ModelSpec' => $row['spesifikasi'] ?? 'null',
                         'Price' => $row['harga'] ?? null,
-                        'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                        'ProductCode' =>$i++,
                         'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
                         'SupplierID' =>$id,
-                        'MarkForDelete' => 0
+                        'MarkForDelete' => 0,
+                        'UpdatedBy' => 'Import'
                     ]);
 
                     $PODetail = PoDetail::create([
                         'POHeaderID' => $POHeaderRecordID,
                         'ProductID' =>$Product->id,
                         'Price' => $row['harga'] ?? null,
-                        'Spesifikasi' => $row['spesifikasi'] ?? null,
                         'Qty' => 1,
-                        'MarkForDelete' => 0  
+                        'MarkForDelete' => 0 ,
+                        'UpdatedBy' => 'Import'
                     ]);
                     
                     $JJ =Invoice::count();
                     $Invoice = Invoice::create([
                         'POHeaderID' =>$POHeaderRecordID,
                         // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
-                        'InvoiceNumber' =>"-",
-                        'InvoiceDate' =>null,
+                        'InvoiceNumber' =>$row['invoicenumber'] ?? null,
+                        'InvoiceDate' =>$row['invoicedate'] ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
-                        'MarkForDelete' => true
+                        'MarkForDelete' => true,
+                        'UpdatedBy' => 'Import'
                     ]);
 
                     $PODetailRecordID = $PODetail->id;
@@ -146,7 +151,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
                         'Keterangan' =>$row['keterangan'] ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
-                        'MarkForDelete' => 0 
+                        'MarkForDelete' => 0,
+                        'UpdatedBy' => 'Import' 
                     ]);
 
                     $AssetRecordID = $Asset->id;
@@ -158,90 +164,60 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
 
                     ]);
                 }
-
                 
-
             } else {
-                if($row['sname']){
-                    $s = Supplier::all()->count();
-                    $newSupplier = Supplier::create([
-                        
-                        'SupplierCode' => 'SC' . str_pad($s + 1, 6, '0', STR_PAD_LEFT),
-                        'Note' => null,
-                        'SupplierName' => $row['sname'],
-                        'SupplierAddress' => null,
-                        'NPWP' => null,
-                        'Website' => null,
-                        'PhoneNumber' => null,
-                        'SupplierPIC' => null,
-                        'BankNumber' => null,
-                        'MarkForDelete' => 0
-                    ]);
-                }
-                else{
-                    $s = Supplier::all()->count();
-                    $newSupplier = Supplier::create([
-                        
-                        'SupplierCode' => 'SC' . str_pad($s + 1, 6, '0', STR_PAD_LEFT),
-                        'Note' => null,
-                        'SupplierName' => '-',
-                        'SupplierAddress' => null,
-                        'NPWP' => null,
-                        'Website' => null,
-                        'PhoneNumber' => null,
-                        'SupplierPIC' => null,
-                        'BankNumber' => null,
-                        'MarkForDelete' => true
-                    ]);
-                }
-                
+              
+                $supplier = Supplier::where('SupplierCode','SC00001')->first();
                 if($row['keterangan'] == null){
-                    $supplierID = $newSupplier->id;
+                    $supplierID = $supplier->id;
                     $count = POHeader::count();
                     $POHeader = POHeader::create([
                         //'SupplierCodeFK' => $supplier,
                         'SupplierID' =>$supplierID,
-                        'PONumber' => '-',
-                        'PODate' => null,   
+                        'PONumber' => $row['ponumber'] ?? null,
+                        'PODate' =>$row['podate'] ?? null,
                         'Note' =>  null,   
                         'PPN' => null,
-                        'MarkForDelete' => true
+                        'MarkForDelete' => true,
+                        'UpdatedBy' => 'Import'
                     ]);
                 }
 
-                $supplierID = $newSupplier->id;
+                $supplierID = $supplier->id;
                 $count = POHeader::count();
                 $POHeader = POHeader::create([
                     'SupplierID' =>$supplierID,
-                    'PONumber' => '-',
-                    'PODate' => null,   
+                    'PONumber' => $row['ponumber'] ?? null,
+                    'PODate' =>$row['podate'] ?? null,
                     'Note' => $row['keterangan'],   
                     'PPN' => null,
-                    'MarkForDelete' => 0
+                    'MarkForDelete' => 0,
+                    'UpdatedBy' => 'Import'
                 ]);
                 //dd($POHeader);
                 $POHeaderRecordID = $POHeader->id ;
-                $matching = Product::where('ModelSpec', 'like','%'. $row['spesifikasi'].'%')->first();
+                $matching = Product::where('ProductCode',$row['productcode'])->first();
                 if($matching){
                     $PODetail = PoDetail::create([
                         'POHeaderID' => $POHeaderRecordID,
                         'ProductID' =>$matching->id ?? null,
                         'Price' => $row['harga'] ?? null,
-                        'Spesifikasi' => $row['spesifikasi'] ?? null,
-                        'Qty' => '-',
-                        'MarkForDelete' =>true
+                        'Qty' => '1',
+                        'MarkForDelete' =>true,
+                        'UpdatedBy' => 'Import'
                     ]);
 
                      //$JJ =Invoice::count();
                 $Invoice = Invoice::create([
                     'POHeaderID' =>$POHeaderRecordID,
                     // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
-                    'InvoiceNumber' =>null,
-                    'InvoiceDate' =>null,
+                    'InvoiceNumber' =>$row['invoicenumber'] ?? null,
+                    'InvoiceDate' =>$row['invoicedate'] ?? null,
                     'TermOfPayment' =>null,
                     'FakturPajak' =>null,
                     'DONumber' =>null,
-                    'MarkForDelete' => true
+                    'MarkForDelete' => true,
+                    'UpdatedBy' => 'Import'
                 ]);
                 //dd($Invoice); 
                 
@@ -263,7 +239,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
                     'Keterangan' =>$row['keterangan'] ?? null,
                     'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
-                    'MarkForDelete' => 0 
+                    'MarkForDelete' => 0 ,
+                    'UpdatedBy' => 'Import'
                 ]);
     
                 $AssetRecordID = $Asset->id;
@@ -284,19 +261,20 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $Product1 = Product::create([
                         'ModelSpec' => $row['spesifikasi'] ?? 'null',
                         'Price' => $row['harga'] ?? null,
-                        'ProductCode' =>Jenis::where('Jenis',$row['jenis'])->first()->Code.str_pad((int)substr($i++, 0) + 1, 6,'0', STR_PAD_LEFT) ?? '0',
+                        'ProductCode' =>$i++,
                         'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
                         'SupplierID' =>$id,
-                        'MarkForDelete' => 0
+                        'MarkForDelete' => 0,
+                        'UpdatedBy' => 'Import'
                     ]);
 
                     $PODetail = PoDetail::create([
                         'POHeaderID' => $POHeaderRecordID,
                         'ProductID' =>$Product1->id,
                         'Price' => $row['harga'] ?? null,
-                        'Spesifikasi' => $row['spesifikasi'] ?? null,
-                        'Qty' => '-',
-                        'MarkForDelete' =>true
+                        'Qty' => '1',
+                        'MarkForDelete' =>true,
+                        'UpdatedBy' => 'Import'
                     ]);
                     //dd($PODetail);
         
@@ -305,12 +283,13 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $Invoice = Invoice::create([
                         'POHeaderID' =>$POHeaderRecordID,
                         // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
-                        'InvoiceNumber' =>null,
-                        'InvoiceDate' =>null,
+                        'InvoiceNumber' =>$row['invoicenumber'] ?? null,
+                        'InvoiceDate' =>$row['invoicedate'] ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
-                        'MarkForDelete' => true
+                        'MarkForDelete' => true,
+                        'UpdatedBy' => 'Import'
                     ]);
                     //dd($Invoice); 
                     
@@ -332,7 +311,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
                         'Keterangan' =>$row['keterangan'] ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
-                        'MarkForDelete' => 0 
+                        'MarkForDelete' => 0,
+                        'UpdatedBy' => 'Import' 
                     ]);
         
                     $AssetRecordID = $Asset->id;
