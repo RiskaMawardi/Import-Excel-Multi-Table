@@ -59,7 +59,6 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $JJ =Invoice::count();
                     $Invoice = Invoice::create([
                         'POHeaderID' =>$POHeaderRecordID,
-                        // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
                         'InvoiceNumber' =>$row['invoicenumber'] ?? null,
                         'InvoiceDate' =>$row['invoicedate'] ?? null,
                         'TermOfPayment' =>null,
@@ -81,11 +80,11 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'PIC' =>$row['pic'] ?? null,
                         'Divisi' =>$row['divisi'] ?? null,
                         'Daerah' =>$row['daerah'] ?? null,
-                        'Note' => '-',
+                        'Note' => $row['note'] ?? null,
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                        'Keterangan' =>$row['keterangan'] ?? null,
+                    
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0 ,
                         'UpdatedBy' => 'Import'
@@ -94,19 +93,20 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $AssetRecordID = $Asset->id;
                     $HistoryPIC = AssetPIC::create([
                         'AssetID' => $AssetRecordID,
-                        'HistoryDivisi' => null,
-                        'HistoryDaerah' => null,
+                        'HistoryDivisi' => $row['historydivisi'],
+                        'HistoryDaerah' => $row['historydaerah'],
                         'HistoryPIC' => $row['historypic'],
+
     
                     ]);
                 }else{
                     $i = Product::count();
                     $Product = Product::create([
                         'ModelSpec' => $row['spesifikasi'] ?? 'null',
-                        'Price' => $row['harga'] ?? null,
+                       
                         'ProductCode' =>$i++,
                         'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
-                        'SupplierID' =>$id,
+                        
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import'
                     ]);
@@ -149,7 +149,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                        'Keterangan' =>$row['keterangan'] ?? null,
+                     
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import' 
@@ -158,8 +158,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $AssetRecordID = $Asset->id;
                     $HistoryPIC = AssetPIC::create([
                         'AssetID' => $AssetRecordID,
-                        'HistoryDivisi' => null,
-                        'HistoryDaerah' => null,
+                        'HistoryDivisi' => $row['historydivisi'],
+                        'HistoryDaerah' => $row['historydaerah'],
                         'HistoryPIC' => $row['historypic'],
 
                     ]);
@@ -237,7 +237,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     'HardwareStatus' =>'Bagus',
                     'Product' => $row['spesifikasi'] ?? null,
                     'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                    'Keterangan' =>$row['keterangan'] ?? null,
+                   
                     'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                     'MarkForDelete' => 0 ,
                     'UpdatedBy' => 'Import'
@@ -248,8 +248,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
     
                 $HistoryPIC = AssetPIC::create([
                     'AssetID' => $AssetRecordID,
-                    'HistoryDivisi' => null,
-                    'HistoryDaerah' => null,
+                    'HistoryDivisi' => $row['historydivisi'],
+                    'HistoryDaerah' => $row['historydaerah'],
                     'HistoryPIC' => $row['historypic'],
     
                 ]);
@@ -260,10 +260,10 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $i = Product::count();
                     $Product1 = Product::create([
                         'ModelSpec' => $row['spesifikasi'] ?? 'null',
-                        'Price' => $row['harga'] ?? null,
+                        
                         'ProductCode' =>$i++,
                         'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
-                        'SupplierID' =>$id,
+                     
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import'
                     ]);
@@ -309,7 +309,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                        'Keterangan' =>$row['keterangan'] ?? null,
+                      
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import' 
@@ -320,8 +320,8 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
         
                     $HistoryPIC = AssetPIC::create([
                         'AssetID' => $AssetRecordID,
-                        'HistoryDivisi' => null,
-                        'HistoryDaerah' => null,
+                        'HistoryDivisi' => $row['historydivisi'],
+                        'HistoryDaerah' => $row['historydaerah'],
                         'HistoryPIC' => $row['historypic'],
         
                     ]);

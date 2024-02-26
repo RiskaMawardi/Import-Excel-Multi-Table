@@ -14,8 +14,5 @@ class Jenis extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['UpdatedBy','id','Jenis','Code','Klasifikasi'];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+  
 }

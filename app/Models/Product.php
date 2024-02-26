@@ -14,8 +14,5 @@ class Product extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['UpdatedBy','id','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
 
-    public function jenis()
-    {
-        return $this->hasMany(Jenis::class);
-    }
+   
 }

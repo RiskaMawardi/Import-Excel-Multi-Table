@@ -14,7 +14,7 @@ class ImportController extends Controller
 
         $this->validate($request, [
             'select_file'  => 'required|mimes:xls,xlsx'
-        ]);
+        ]); 
         $path = $request->file('select_file')->getRealPath();
         Excel::import(new DataImport, $path);
         return back()->with('success', 'Excel Data Imported successfully.');
