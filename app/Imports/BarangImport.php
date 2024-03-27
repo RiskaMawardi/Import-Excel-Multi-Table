@@ -37,7 +37,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $POHeader = POHeader::create([
                     'SupplierID' => $id,
                     'PONumber' => $row['ponumber'] ?? null,
-                    'PODate' =>$row['podate'] ?? null,
+                    'PODate' =>Date::excelToDateTimeObject($row['podate'])->format('Y-m-d') ??null,
                     'Note' => $row['keterangan'] ?? null,
                     'PPN' => null,
                     'MarkForDelete' => 0,
@@ -60,7 +60,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     $Invoice = Invoice::create([
                         'POHeaderID' =>$POHeaderRecordID,
                         'InvoiceNumber' =>$row['invoicenumber'] ?? null,
-                        'InvoiceDate' =>$row['invoicedate'] ?? null,
+                        'InvoiceDate' =>Date::excelToDateTimeObject($row['invoicedate'])->format('Y-m-d') ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
@@ -84,7 +84,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                    
+                        'TanggalMutasi' =>Date::excelToDateTimeObject($row['tglmutasi'])->format('Y-m-d') ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0 ,
                         'UpdatedBy' => 'Import'
@@ -125,7 +125,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'POHeaderID' =>$POHeaderRecordID,
                         // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
                         'InvoiceNumber' =>$row['invoicenumber'] ?? null,
-                        'InvoiceDate' =>$row['invoicedate'] ?? null,
+                        'InvoiceDate' =>Date::excelToDateTimeObject($row['invoicedate'])->format('Y-m-d') ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
@@ -145,11 +145,11 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'PIC' =>$row['pic'] ?? null,
                         'Divisi' =>$row['divisi'] ?? null,
                         'Daerah' =>$row['daerah'] ?? null,
-                        'Note' => '-',
+                        'Note' => $row['note'] ?? null,
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                     
+                        'TanggalMutasi' =>Date::excelToDateTimeObject($row['tglmutasi'])->format('Y-m-d') ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import' 
@@ -175,7 +175,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         //'SupplierCodeFK' => $supplier,
                         'SupplierID' =>$supplierID,
                         'PONumber' => $row['ponumber'] ?? null,
-                        'PODate' =>$row['podate'] ?? null,
+                        'PODate' =>Date::excelToDateTimeObject($row['podate'])->format('Y-m-d') ??null,
                         'Note' =>  null,   
                         'PPN' => null,
                         'MarkForDelete' => true,
@@ -188,7 +188,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                 $POHeader = POHeader::create([
                     'SupplierID' =>$supplierID,
                     'PONumber' => $row['ponumber'] ?? null,
-                    'PODate' =>$row['podate'] ?? null,
+                    'PODate' =>Date::excelToDateTimeObject($row['podate'])->format('Y-m-d') ??null,
                     'Note' => $row['keterangan'],   
                     'PPN' => null,
                     'MarkForDelete' => 0,
@@ -212,7 +212,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     'POHeaderID' =>$POHeaderRecordID,
                     // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
                     'InvoiceNumber' =>$row['invoicenumber'] ?? null,
-                    'InvoiceDate' =>$row['invoicedate'] ?? null,
+                    'InvoiceDate' =>Date::excelToDateTimeObject($row['invoicedate'])->format('Y-m-d') ?? null,
                     'TermOfPayment' =>null,
                     'FakturPajak' =>null,
                     'DONumber' =>null,
@@ -233,11 +233,11 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                     'PIC' =>$row['pic'] ?? null,
                     'Divisi' =>$row['divisi'] ?? null,
                     'Daerah' =>$row['daerah'] ?? null,
-                    'Note' => '-',
+                    'Note' =>$row['note'] ?? null,
                     'HardwareStatus' =>'Bagus',
                     'Product' => $row['spesifikasi'] ?? null,
                     'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                   
+                    'TanggalMutasi' =>Date::excelToDateTimeObject($row['tglmutasi'])->format('Y-m-d') ?? null,
                     'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                     'MarkForDelete' => 0 ,
                     'UpdatedBy' => 'Import'
@@ -284,7 +284,7 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'POHeaderID' =>$POHeaderRecordID,
                         // 'InvoiceNumber' =>str_pad($JJ + 1, 6, '0', STR_PAD_LEFT),
                         'InvoiceNumber' =>$row['invoicenumber'] ?? null,
-                        'InvoiceDate' =>$row['invoicedate'] ?? null,
+                        'InvoiceDate' =>Date::excelToDateTimeObject($row['invoicedate'])->format('Y-m-d') ?? null,
                         'TermOfPayment' =>null,
                         'FakturPajak' =>null,
                         'DONumber' =>null,
@@ -305,11 +305,11 @@ class BarangImport implements ToCollection, WithHeadingRow, WithCalculatedFormul
                         'PIC' =>$row['pic'] ?? null,
                         'Divisi' =>$row['divisi'] ?? null,
                         'Daerah' =>$row['daerah'] ?? null,
-                        'Note' => '-',
+                        'Note' =>$row['note'] ?? null,
                         'HardwareStatus' =>'Bagus',
                         'Product' => $row['spesifikasi'] ?? null,
                         'AkhirGaransi' =>Date::excelToDateTimeObject($row['garansisdtgl'])->format('Y-m-d') ?? null,
-                      
+                        'TanggalMutasi' =>Date::excelToDateTimeObject($row['tglmutasi'])->format('Y-m-d') ?? null,
                         'RincianMaintenance' =>$row['rincianmaintenence'] ?? null ,
                         'MarkForDelete' => 0,
                         'UpdatedBy' => 'Import' 

@@ -80,7 +80,6 @@ return [
         ],
 
         'sqlsrv' => [
-            'strict' => false,
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '172.16.3.230\IBTDWH'),

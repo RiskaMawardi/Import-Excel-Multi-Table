@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\Jenis;
+use Exception;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -19,14 +20,16 @@ class ProductImport implements ToCollection, WithHeadingRow, WithCalculatedFormu
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-         
-                $Product = Product::create([
-                    'ModelSpec' => $row['model_specifications'] ?? 'null',
-                    'ProductCode' =>$row['productcode'],
-                    'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
-                    'MarkForDelete' => 0,
-                    'UpdatedBy' => 'Import'
-                ]);
+    
+            $Product = Product::create([
+                'ProductCode' =>$row['productcode'],
+                'ModelSpec' => $row['model_specifications'] ?? 'null',
+                'JenisID' =>Jenis::where('jenis',$row['jenis'])->first()->id ?? 0,
+                'MarkForDelete' => 0,
+                'UpdatedBy' => 'Import'
+            ]);
+        
+                
            
            //dd($Product);
         }

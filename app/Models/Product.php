@@ -12,7 +12,7 @@ class Product extends Model
     //public $timestamps = false;
     protected $table = "Product_IBT";
     protected $primaryKey = 'id';
-    protected $fillable = ['UpdatedBy','id','JenisID','SupplierID','ProductCode','ModelSpec','Price'];
+    protected $fillable = ['ProductCode','UpdatedBy','JenisID','SupplierID','ModelSpec','Price'];
 
    
 }

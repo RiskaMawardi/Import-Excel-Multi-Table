@@ -20,7 +20,7 @@ class SupplierImport implements ToCollection, WithHeadingRow, WithCalculatedForm
         foreach ($rows as $row) {
             // $dd= $row['suppliercode'];
             // dd($dd);
-            $supplier = Supplier::create([
+            $supplier = Supplier::updateOrCreate([
                 'SupplierCode' =>$row['suppliercode'] ?? 'null',
                 'SupplierName' =>$row['supplier_name'] ?? 'null',
                 'SupplierAddress' =>$row['supplier_address'] ?? 'null',
